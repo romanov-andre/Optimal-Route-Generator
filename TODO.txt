@@ -1,0 +1,7 @@
+1. [] Adjust html to include a list view for the current orders
+2. [] Pull fake orders from local db to simulate pulling from DOVE
+3. [x] Change route form to only include multiple boxes for making an order
+4. [x] Remove login feature entirely because it isn't needed
+5. [] Make it so street names can be used on the map
+6. [] When an order/s is selected and confirmed, display a pin at each address
+7. [] Error check the route form
