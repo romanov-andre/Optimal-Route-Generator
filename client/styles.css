@@ -7,10 +7,14 @@
 .table {
   background-color: #fff;
   text-align: center;
-  width: 25%;
+  width: 50%;
   float: right;
   margin-right: 40px;
 }
 body {
   background-color: #66a3ff;
+}
+
+label {
+  text-align: left;
 }

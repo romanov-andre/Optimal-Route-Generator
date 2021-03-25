@@ -26,6 +26,30 @@ app.get('/', (req, res) => {
 	});
 });
 
+app.get('/orders', (req, res) => {
+	orders
+		.find()
+		.then(orders => {
+			res.json(orders);
+		});
+});
+
+app.post('/getOrder', (req, res) => {
+	const order = {
+		name: req.body.name,
+		address: req.body.address,
+		city: req.body.city,
+		state: req.body.state,
+		zipcode: req.body.zipcode
+	}
+
+	orders
+		.insert(order)
+		.then(createdOrder => {
+			res.json(createdOrder);
+		})
+
+})
 
 //A basic limiter so users can't spam the server with requests
 const limiter = rateLimit({
