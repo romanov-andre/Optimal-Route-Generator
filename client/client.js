@@ -32,26 +32,28 @@ function initMap() {
 
 }
 
+async function getCoordinates(street, city, state, zip) {
+
+
+	const response = await fetch(`http://www.mapquestapi.com/geocoding/v1/address?key=cqknkkaMme9j37I5pUmC1ypE9pLVfozR&street=${street}&city=${city}&state=${state}&postalcode=${zip}`);
+
+	return response.json();
+
+}
+
 //Function to create a route with the user entered start and end
-function createRoute(start, end) {
+function createMarker(lat, lng) {
 
 	try {
-		direction = L.mapquest.directions();
-
-		direction.route({
-
-			start: start,
-			end: end,
-			options: {
-				timeOverage: 25,
-				maxRoutes: 3,
-			}
-
-		});
-
-		var directionsLayer = L.mapquest.directionsLayer({
-			directionsResponse: response
-		}).addTo(globalMap);
+		L.marker([lat, lng], {
+			icon: L.mapquest.icons.marker({
+				primaryColor: '#22407F',
+				secondaryColor: '#3B5998',
+				shadow: true,
+				size: 'md',
+				symbol: 'A'
+			})
+		}).addTo(globalMap)
 	} catch (error) {
 		console.log(error);
 	}
@@ -60,6 +62,7 @@ function createRoute(start, end) {
 //Function that executes everytime the window loads for any reasons
 window.onload = function () {
 	initMap();
+
 }
 
 //Function to move the map when a new location is selected in the search bar
@@ -88,8 +91,19 @@ placeSearch.on('change', (e) => {
 
 });
 
-order_table.addEventListener('click', (event) => {
-	console.log(event.target.innerText);
+order_table.addEventListener('click', async (event) => {
+
+	console.log(event.target);
+
+	const data = await getCoordinates("11161 Everblades Parkway", "Estero", "FL", "33928");
+
+	let lat = data.results[0].locations[0].latLng.lat;
+	let lng = data.results[0].locations[0].latLng.lng;
+
+	createMarker(lat, lng);
+
+	panMap(lat, lng);
+
 
 
 })
