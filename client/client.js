@@ -1,6 +1,7 @@
 //Variables to hold html elements for use with javascript
 const order_form = document.querySelector('.order-form');
 const order_table = document.querySelector('.table');
+const testButton = document.querySelector('.test-button')
 
 
 
@@ -58,24 +59,56 @@ function tabelSetUp() {
 
 function appendOrder(number, name, street, city, state, zipcode) {
 	var row = order_table.insertRow(number);
+	row.id = number.toString();
 
 	var order = row.insertCell(0);
+	order.className = "row-data";
 	order.innerHTML = number;
 
 	var orderName = row.insertCell(1);
+	orderName.className = "row-data";
 	orderName.innerHTML = name;
 
 	var orderStreet = row.insertCell(2);
+	orderStreet.className = "row-data";
 	orderStreet.innerHTML = street;
 
 	var orderCity = row.insertCell(3);
+	orderCity.className = "row-data";
 	orderCity.innerHTML = city;
 
 	var orderState = row.insertCell(4);
+	orderState.className = "row-data";
 	orderState.innerHTML = state;
 
 	var orderZipcode = row.insertCell(5);
+	orderZipcode.className = "row-data";
 	orderZipcode.innerHTML = zipcode;
+
+	row.addEventListener('click', async (event) => {
+		event.preventDefault();
+		console.log("WOrked");
+
+		console.log(event.target.parentNode.id);
+
+		var rowId = event.target.parentNode.id;
+
+		var data = document.getElementById(rowId).querySelectorAll('.row-data');
+
+		var street = data[2].innerText;
+		var city = data[3].innerText;
+		var state = data[4].innerText;
+		var zipcode = data[5].innerText;
+
+		var coordinates = await getCoordinates(street, city, state, zipcode);
+
+		let lat = coordinates.results[0].locations[0].latLng.lat;
+		let lng = coordinates.results[0].locations[0].latLng.lng;
+
+		createMarker(lat, lng);
+
+		panMap(lat, lng);
+	})
 }
 
 function listAllOrders() {
@@ -166,20 +199,9 @@ placeSearch.on('change', (e) => {
 
 });
 
-order_table.addEventListener('click', async (event) => {
-
+testButton.addEventListener('click', (event) => {
+	event.preventDefault();
 	listAllOrders();
-
-	// console.log(event.target);
-
-	// const data = await getCoordinates("11161 Everblades Parkway", "Estero", "FL", "33928");
-
-	// let lat = data.results[0].locations[0].latLng.lat;
-	// let lng = data.results[0].locations[0].latLng.lng;
-
-	// createMarker(lat, lng);
-
-	// panMap(lat, lng);
 })
 
 //Listener for the route generator to get the start and end point of the desired route
