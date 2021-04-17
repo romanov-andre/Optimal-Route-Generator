@@ -1,9 +1,8 @@
 //Variables to hold html elements for use with javascript
 const order_form = document.querySelector('.order-form');
 const order_table = document.querySelector('.table');
-const testButton = document.querySelector('.test-button')
-
-
+const testButton = document.querySelector('.test-button');
+const routeGenerateButton = document.querySelector('.route-button');
 
 //URL for fetch requests intended for the database
 const API_URL = 'http://localhost:5000/';
@@ -11,6 +10,10 @@ const API_URL = 'http://localhost:5000/';
 //global map variable
 var globalMap;
 var direction;
+
+//global list of markers
+var markerList = [];
+var markerCount = 0;
 
 //Function to create an initial map and center it on Estero
 function initMap() {
@@ -105,6 +108,8 @@ function appendOrder(number, name, street, city, state, zipcode) {
 		let lat = coordinates.results[0].locations[0].latLng.lat;
 		let lng = coordinates.results[0].locations[0].latLng.lng;
 
+		markerList.push(coordinates.results[0].locations[0].street);
+
 		createMarker(lat, lng);
 
 		panMap(lat, lng);
@@ -118,7 +123,6 @@ function listAllOrders() {
 	order_table.innerHTML = "";
 
 	tabelSetUp();
-
 
 	fetch(API_URL + "orders")
 		.then(res => res.json())
@@ -140,7 +144,6 @@ function listAllOrders() {
 
 async function getCoordinates(street, city, state, zip) {
 
-
 	const response = await fetch(`http://www.mapquestapi.com/geocoding/v1/address?key=cqknkkaMme9j37I5pUmC1ypE9pLVfozR&street=${street}&city=${city}&state=${state}&postalcode=${zip}`);
 
 	return response.json();
@@ -150,6 +153,8 @@ async function getCoordinates(street, city, state, zip) {
 //Function to create a route with the user entered start and end
 function createMarker(lat, lng) {
 
+	markerCount = markerCount + 1;
+
 	try {
 		L.marker([lat, lng], {
 			icon: L.mapquest.icons.marker({
@@ -157,7 +162,7 @@ function createMarker(lat, lng) {
 				secondaryColor: '#3B5998',
 				shadow: true,
 				size: 'md',
-				symbol: 'A'
+				symbol: markerCount.toString()
 			})
 		}).addTo(globalMap)
 	} catch (error) {
@@ -203,6 +208,18 @@ testButton.addEventListener('click', (event) => {
 	event.preventDefault();
 	listAllOrders();
 })
+
+routeGenerateButton.addEventListener('click', (event) => {
+	event.preventDefault();
+
+	L.mapquest.directions().route({
+		start: '8121 Rosies Ct #23, Fl',
+		end: markerList[markerList.length - 1],
+		waypoints: markerList,
+		optimizeWaypoints: true
+	});
+
+});
 
 //Listener for the route generator to get the start and end point of the desired route
 order_form.addEventListener('submit', (event) => {

@@ -7,9 +7,13 @@
 .table {
   background-color: #fff;
   text-align: center;
-  width: 50%;
+  width: 45%;
   float: right;
   margin-right: 40px;
+}
+
+tr:hover {
+  background-color: aqua;
 }
 body {
   background-color: #66a3ff;
