@@ -111,7 +111,7 @@ Once you successfully get the application working locally:
 [linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: images/screenshot.png
 
-## Demo gif
+## Demo GIF
 
 ![58dy4c](https://user-images.githubusercontent.com/83718752/117183918-1e551180-ada6-11eb-8380-306dd5fe0ca6.gif)
 
