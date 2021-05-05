@@ -110,3 +110,8 @@ Once you successfully get the application working locally:
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: images/screenshot.png
+
+## Demo gif
+
+![58dy4c](https://user-images.githubusercontent.com/83718752/117183918-1e551180-ada6-11eb-8380-306dd5fe0ca6.gif)
+
